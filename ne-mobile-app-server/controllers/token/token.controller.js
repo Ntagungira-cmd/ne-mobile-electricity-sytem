@@ -18,8 +18,10 @@ const generateEightDigitToken = () => {
 const generateToken = async (req, res) => {
   try {
     const { price, meter } = req.body;
+    console.log(price);
 
     const tokenValueDays = Math.floor(price / 100);
+
 
     // Check if the token value exceeds the maximum (5 years)
     const maxTokenValueDays = 365 * 5;
@@ -38,6 +40,7 @@ const generateToken = async (req, res) => {
     const generatedToken = await newToken.save();
     res.status(201).send(generatedToken);
   } catch (error) {
+    console.log(error);
     res.status(500).send(error);
   }
 };

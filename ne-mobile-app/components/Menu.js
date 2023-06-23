@@ -18,14 +18,14 @@ const Menu = () => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate("GenerateToken")}
+        onPress={() => navigation.navigate("ValidateToken")}
         style={tw`flex items-center justify-center`}
       >
-        <Icon name="car" size={22} style={tw`text-white`} />
+        <Icon name="edit" size={22} style={tw`text-white`} />
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => navigation.navigate("GenerateToken")}
         style={tw`flex items-center justify-center`}
       >
         <Icon name="history" size={24} style={tw`text-white`} />
@@ -34,6 +34,9 @@ const Menu = () => {
       <TouchableOpacity style={tw`flex items-center justify-center`}>
         <Icon name="user" size={24} style={tw`text-white`} />
       </TouchableOpacity>
+      <View>
+
+      </View>
     </View>
   );
 };

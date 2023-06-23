@@ -14,7 +14,7 @@ const WelcomeScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={[tw`flex-1 items-center pt-44`,styles.container]}>
-      <Text style={tw`text-4xl font-bold text-white`}>App Title</Text>
+      <Text style={tw`text-4xl font-bold text-red`}>EUCL</Text>
     </SafeAreaView>
   );
   

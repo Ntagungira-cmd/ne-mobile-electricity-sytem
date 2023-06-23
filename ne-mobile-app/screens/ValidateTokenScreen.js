@@ -4,60 +4,53 @@ import { useNavigation } from '@react-navigation/native';
 import CustomInput from '../components/CustomInput'
 import CustomButton from '../components/CustomButton'
 import tw from 'tailwind-react-native-classnames';
-import * as SecureStore from 'expo-secure-store';
 import {API_URL} from '../utils/api';
 import axios from 'axios';
+import Menu from "../components/Menu";
 
 const { height: viewportHeight } = Dimensions.get("window");
 
-const LoginScreen = () => {
+const ValidateTokenScreen = () => {
     const navigation = useNavigation();
     //form inputs handling
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [token, setToken] = useState('');
+    const [daysOfLighting, setDaysOfLighting] = useState('');
     const [loading, setLoading] = useState(false);
   
-    const handleEmailChange = (text) => {
-      setEmail(text);
+    const handleTokenChange = (text) => {
+      setToken(text);
     };
   
-    const handlePassChange = (text) => {
-      setPassword(text);
-    };
 
     //on submit
     const handleSubmit = async ()=>{
       //check if all fields are entered
-        if (!email || !password) {
-          Alert.alert('Validation Error', 'Please enter both email and password.');
+        if (!token) {
+          Alert.alert('Validation Error', 'Please enter token.');
           return;
         }
     
-        //change the loading state and make login request to backend
+        //change the loading state and make request to backend
         setLoading(true);
         try {
-          const response = await axios.post(API_URL+'/user/login', {
-            email,
-            password,
+          const response = await axios.post(API_URL + "/tokens/validate", {
+            token,
           });
-          // console.log("response",response?.data?.token)
-          const token = response?.data?.token;
-          await SecureStore.setItemAsync('token', token);    //set token in secure storage
-    
-          if (token) {
-            //clear all textfields and change the loading state
-            setEmail('');
-            setPassword('');
-            setLoading(false);
 
-            //redirect to home screen
-            navigation.navigate('Home')
+          console.log(response.data.daysOfLighting);
+          
+          if (response.data) {
+            //clear all textfields and change the loading state
+            Alert.alert("Validation Success", "Token is valid");
+            setToken('');
+            setLoading(false);
+            setDaysOfLighting(response.data.daysOfLighting);
           }
 
         } catch (error) {
           console.log(error,"catch error")
           setLoading(false);
-          Alert.alert('Login Failed', error?.message);
+          Alert.alert('token validation Failed', error?.message);
         }
     }
 
@@ -68,41 +61,30 @@ const LoginScreen = () => {
         <View style={styles.subcontainer}>
           <View style={styles.minicontainer}>
             <View style={styles.microcontainer}>
-              <Text style={styles.subtitles}>Login</Text>
+              <Text style={styles.subtitles}>Validate Token</Text>
             </View>
             <View style={styles.form}>
               <CustomInput
-                value={email}
-                placeholder="Your Email"
-                icon="mail"
-                keyBoardType="email-address"
-                onChange={handleEmailChange}
-              />
-              <CustomInput
-                value={password}
-                placeholder="Password"
-                icon="lock"
+                value={token}
+                placeholder="Your Token"
+                icon="edit"
                 keyBoardType="default"
-                HiddenText
-                onChange={handlePassChange}
+                onChange={handleTokenChange}
               />
               <CustomButton
-                text={loading ? "Signing in ..." : "Sign in"}
+                text={loading ? "validating ..." : "Validate"}
                 onPress={handleSubmit}
                 bg="#3B82F6"
                 color="white"
               />
+              <View style={styles.minicontainer}>
+                <Text>Days of daysOfLighting are : {daysOfLighting}</Text>
+              </View>
             </View>
-            <Text style={tw`mb-4`}>
-              Don't have an account?{" "}
-              <Text
-                style={[tw`underline`, { color: "#092468" }]}
-                onPress={() => navigation.navigate("Signup")}
-              >
-                Register
-              </Text>
-            </Text>
           </View>
+        </View>
+        <View style={styles.menuContainer}>
+          <Menu />
         </View>
       </View>
     </ScrollView>
@@ -117,8 +99,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#3B82F6",
     height: viewportHeight,
     paddingTop: 20,
-    paddingBottom: 210,
-    paddingHorizontal: 20,
+  },
+  menuContainer: {
+    width: "100%",
   },
 
   subcontainer: {
@@ -127,10 +110,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    borderBottomRightRadius: 30,
-    borderBottomLeftRadius: 30,
     width: "100%",
-    height: 700,
+    height: 800,
     marginTop: 80,
     backgroundColor: "#ffff",
   },
@@ -193,4 +174,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen
+export default ValidateTokenScreen;

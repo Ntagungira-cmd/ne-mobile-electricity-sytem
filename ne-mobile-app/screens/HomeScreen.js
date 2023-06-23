@@ -5,126 +5,60 @@ import {
   FlatList,
   TouchableOpacity,
   SafeAreaView,
-  Image,
+  ScrollView,
+  StyleSheet,
 } from "react-native";
 import tw from "tailwind-react-native-classnames";
 import Menu from "../components/Menu";
-import { API_URL, getConfig } from "../utils/api";
+import { API_URL} from "../utils/api";
+import CustomInput from "../components/CustomInput";
+import CustomButton from "../components/CustomButton";
 import axios from "axios";
 import NearbyImage from "../assets/image.png";
 
-const Sampledata = [
-  {
-    id: "1",
-    image: NearbyImage,
-    modelName: "Rav 4",
-    price: "13 Million",
-    manufactureCompany: "Toyota",
-    manufactureYear: "2020",
-  },
-  {
-    id: "1",
-    image: NearbyImage,
-    modelName: "Rav 4",
-    price: "13 Million",
-    manufactureCompany: "Toyota",
-    manufactureYear: "2020",
-  },
-  {
-    id: "1",
-    image: NearbyImage,
-    modelName: "Rav 4",
-    price: "13 Million",
-    manufactureCompany: "Toyota",
-    manufactureYear: "2020",
-  },
-  {
-    id: "1",
-    image: NearbyImage,
-    modelName: "Rav 4",
-    price: "13 Million",
-    manufactureCompany: "Toyota",
-    manufactureYear: "2020",
-  },
-  {
-    id: "1",
-    image: NearbyImage,
-    modelName: "Rav 4",
-    price: "13 Million",
-    manufactureCompany: "Toyota",
-    manufactureYear: "2020",
-  },
-  {
-    id: "1",
-    image: NearbyImage,
-    modelName: "Rav 4",
-    price: "13 Million",
-    manufactureCompany: "Toyota",
-    manufactureYear: "2020",
-  },
-  {
-    id: "1",
-    image: NearbyImage,
-    modelName: "Rav 4",
-    price: "13 Million",
-    manufactureCompany: "Toyota",
-    manufactureYear: "2020",
-  },
-  {
-    id: "1",
-    image: NearbyImage,
-    modelName: "Rav 4",
-    price: "13 Million",
-    manufactureCompany: "Toyota",
-    manufactureYear: "2020",
-  }
-];
-
 const HomeScreen = () => {
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [meter, setMeter] = useState("");
+  const handleMeterChange = (value)=>{
+    setMeter(value)
+  }
 
   //fetch data on component mount
   useEffect(() => {
-    //fetchData();
-  }, []);
+    fetchData();
+  }, [meter]);
 
-  // const fetchData = async () => {
-  //     const config = await getConfig();     //retrieving token
-  //     try {
-  //         const response = await axios.get(`${API_URL}/vehicle/all`,config);
-  //         // console.log(response?.data?.data?.vehicles,"response");
-
-  //         //populate the data array with the received response
-  //         setData(response?.data?.data?.vehicles);
-  //     } catch (error) {
-  //         console.log(error,"catch error");
-  //     }
-  //};
+  const fetchData = async () => {
+      try {
+          const response = await axios.get(
+            `${API_URL}/tokens/${meter}`
+          );
+          setData(response?.data?.tokens);
+      } catch (error) {
+          console.log(error);
+      }
+  };
   return (
     <SafeAreaView style={tw`flex-1`}>
-      <Text
-        style={{
-          marginTop: 60,
-          marginLeft: 35,
-          marginBottom: 10,
-          alignSelf: "center",
-          fontWeight: "500",
-          fontSize: 20,
-        }}
-      >
-        Welcome To Dashboard
-      </Text>
-      {/* mapping the data */}
+      <View style={styles.minicontainer}>
+        <CustomInput
+          value={meter}
+          placeholder="Meter No"
+          icon="edit"
+          keyBoardType="default"
+          onChange={handleMeterChange}
+        />
+      </View>
       <FlatList
-        data={Sampledata}
+        data={data}
         keyExtractor={(item) => item._id}
         renderItem={({
           item: {
-            modelName,
-            price,
-            manufactureCompany,
-            NearbyImage,
-            manufactureYear,
+            token,
+            tokenStatus,
+            tokenValueDays,
+            amount
           },
         }) => (
           <TouchableOpacity
@@ -133,27 +67,31 @@ const HomeScreen = () => {
               { backgroundColor: "#F8F8FB" },
             ]}
           >
-            <Image
-              style={tw`rounded p-3 mr-4 w-16 h-16`}
-              source={require("../assets/image.png")}
-              color="white"
-              size={18}
-            />
             <View>
-              <Text style={tw`font-semibold`}>{manufactureCompany}</Text>
+              <Text style={tw`font-semibold`}>Token: {token}</Text>
               <Text>
-                {modelName} -{" "}
-                <Text style={tw`text-xs text-gray-400`}>{manufactureYear}</Text>
+                <Text style={tw`text-xs text-gray-400`}>{tokenStatus}</Text>
               </Text>
-              <Text style={tw`text-gray-500`}>{price} Rwf</Text>
+              <Text style={tw`text-gray-500`}>{amount} Rwf</Text>
             </View>
           </TouchableOpacity>
         )}
       />
-
       <Menu />
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 20,
+  },
+  minicontainer: {
+    flex: 1,
+    marginTop: 70,
+    alignItems: "center",
+    paddingTop: 15,
+  },
+});
 
 export default HomeScreen;

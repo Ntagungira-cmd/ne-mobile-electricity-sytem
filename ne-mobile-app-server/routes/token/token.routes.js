@@ -11,7 +11,7 @@ router.post("/api/v1/generateToken", generateToken);
 //getting a token by meter number
 router.get("/api/v1/tokens/:meterNumber", getTokensByMeterNumber);
 //validating a token
-router.post("/tokens/validate", validateToken);
+router.post("/api/v1/tokens/validate", validateToken);
 
 
 
