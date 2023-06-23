@@ -14,14 +14,14 @@ const WelcomeScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={[tw`flex-1 items-center pt-44`,styles.container]}>
-      <Text style={tw`text-4xl font-bold text-red`}>EUCL</Text>
+      <Text style={tw`text-4xl font-bold text-white`}>EUCL</Text>
     </SafeAreaView>
   );
   
 };
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#3B82F6",
+    backgroundColor: "red",
   },
 });
 

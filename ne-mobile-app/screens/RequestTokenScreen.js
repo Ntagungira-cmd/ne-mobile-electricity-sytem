@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 const RequestTokenScreen = () => {
   const navigation = useNavigation();
   //form input states
+  const [token, setToken] = useState("");
   const [meter, setMeter] = useState("");
   const [price, setPrice] = useState("");
   const [loading, setLoading] = useState(false); //loading state with initial state set to false
@@ -43,8 +44,8 @@ const RequestTokenScreen = () => {
       Alert.alert("Error", "amount must be between 3 and 6 digits");
       return;
     }
-    if (meter.length !== 10) {
-      Alert.alert("Error", "Meter must be 10 digits");
+    if (meter.length !== 6) {
+      Alert.alert("Error", "Meter must be 6 digits");
       return;
     }
     if (price < 100) {
@@ -79,8 +80,8 @@ const RequestTokenScreen = () => {
           Alert.alert("Success", "Token generated successfully");
           setMeter("");
           setPrice("");
-      }
-      navigation.navigate("validateToken")
+          setToken(res.data);
+    }
     } catch (error) {
       console.error("Error generating token:", error.response.data);
       Alert.alert("Error", "Failed to generate token. Please try again later.");
@@ -117,9 +118,14 @@ const RequestTokenScreen = () => {
               <CustomButton
                 text={loading == true ? "Generating Token ..." : "Get Token"}
                 onPress={handleProceed}
-                bg="#3B82F6"
+                bg="red"
                 color="white"
               />
+            </View>
+            <View style={styles.minicontainer}>
+              <Text style={tw`text-lg text-gray-700`}>
+                Token : {token.token}
+              </Text>
             </View>
           </View>
         </View>

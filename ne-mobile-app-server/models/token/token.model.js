@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 
 // Define the schema for the "purchased_tokens" collection
 const tokenSchema = new mongoose.Schema({
-  meterNumber: { type: String, required: true },
+  meterNumber: { type: String, required: true, minlength: 6, maxlength: 6 },
   token: { type: String, required: true },
   tokenStatus: {
     type: String,

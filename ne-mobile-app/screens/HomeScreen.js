@@ -17,7 +17,6 @@ import axios from "axios";
 import NearbyImage from "../assets/image.png";
 
 const HomeScreen = () => {
-  const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [meter, setMeter] = useState("");
   const handleMeterChange = (value)=>{
@@ -40,11 +39,11 @@ const HomeScreen = () => {
       }
   };
   return (
-    <SafeAreaView style={tw`flex-1`}>
+    <View style={tw`flex-1`}>
       <View style={styles.minicontainer}>
         <CustomInput
           value={meter}
-          placeholder="Meter No"
+          placeholder="Enter Meter Number"
           icon="edit"
           keyBoardType="default"
           onChange={handleMeterChange}
@@ -54,12 +53,7 @@ const HomeScreen = () => {
         data={data}
         keyExtractor={(item) => item._id}
         renderItem={({
-          item: {
-            token,
-            tokenStatus,
-            tokenValueDays,
-            amount
-          },
+          item: { token, tokenStatus, tokenValueDays, amount },
         }) => (
           <TouchableOpacity
             style={[
@@ -70,25 +64,23 @@ const HomeScreen = () => {
             <View>
               <Text style={tw`font-semibold`}>Token: {token}</Text>
               <Text>
-                <Text style={tw`text-xs text-gray-400`}>{tokenStatus}</Text>
+                <Text style={tw`text-xs text-gray-700`}>{tokenStatus}</Text>
               </Text>
-              <Text style={tw`text-gray-500`}>{amount} Rwf</Text>
+              <Text style={tw`text-gray-700`}>{amount} Rwf</Text>
             </View>
           </TouchableOpacity>
         )}
       />
       <Menu />
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 20,
-  },
+  
   minicontainer: {
     flex: 1,
-    marginTop: 70,
+    marginTop: 10,
     alignItems: "center",
     paddingTop: 15,
   },

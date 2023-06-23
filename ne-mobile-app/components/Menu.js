@@ -8,7 +8,7 @@ const Menu = () => {
   const navigation = useNavigation();
   return (
     <View
-      style={tw`w-full bg-blue-500 flex-row justify-around items-center h-16 mt-2`}
+      style={tw`w-full bg-red-500 flex-row justify-around items-center h-16 mt-2`}
     >
       <TouchableOpacity
         onPress={() => navigation.navigate("Home")}
@@ -29,10 +29,6 @@ const Menu = () => {
         style={tw`flex items-center justify-center`}
       >
         <Icon name="history" size={24} style={tw`text-white`} />
-      </TouchableOpacity>
-
-      <TouchableOpacity style={tw`flex items-center justify-center`}>
-        <Icon name="user" size={24} style={tw`text-white`} />
       </TouchableOpacity>
       <View>
 

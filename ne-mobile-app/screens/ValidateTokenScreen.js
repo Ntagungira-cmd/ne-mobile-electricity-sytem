@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import { View, Text, StyleSheet, ScrollView, Alert, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, Alert, Dimensions, SafeAreaView } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import CustomInput from '../components/CustomInput'
 import CustomButton from '../components/CustomButton'
@@ -55,11 +55,12 @@ const ValidateTokenScreen = () => {
     }
 
   return (
-    <ScrollView>
+    <SafeAreaView style={styles.container}>
       <View style={styles.container}>
-        <Text style={styles.text}>App Title</Text>
+        <Text style={styles.text}>EUCL</Text>
         <View style={styles.subcontainer}>
           <View style={styles.minicontainer}>
+            <Text style={styles.text}>EUCL</Text>
             <View style={styles.microcontainer}>
               <Text style={styles.subtitles}>Validate Token</Text>
             </View>
@@ -74,11 +75,13 @@ const ValidateTokenScreen = () => {
               <CustomButton
                 text={loading ? "validating ..." : "Validate"}
                 onPress={handleSubmit}
-                bg="#3B82F6"
+                bg="red"
                 color="white"
               />
               <View style={styles.minicontainer}>
-                <Text>Days of daysOfLighting are : {daysOfLighting}</Text>
+                <Text style={tw`text-lg text-gray-700`}>
+                  Days of lighting : {daysOfLighting}
+                </Text>
               </View>
             </View>
           </View>
@@ -87,7 +90,7 @@ const ValidateTokenScreen = () => {
           <Menu />
         </View>
       </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -96,7 +99,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#3B82F6",
+    backgroundColor: "red",
     height: viewportHeight,
     paddingTop: 20,
   },
@@ -140,7 +143,6 @@ const styles = StyleSheet.create({
   },
 
   subtitles: {
-    color: "#3B82F6",
     fontWeight: 800,
     fontSize: 16,
     marginBottom: 10,

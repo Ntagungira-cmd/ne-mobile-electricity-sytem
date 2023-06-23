@@ -22,7 +22,7 @@ const CustomInput = ({ placeholder, icon, keyBoardType, value, HiddenText, onCha
 const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#000',
     borderRadius: 7,
     paddingHorizontal: 10,
     flexDirection: 'row',
